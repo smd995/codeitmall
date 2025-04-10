@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import axios from "@/lib/axios";
+import SizeReviewList from "@/components/SizeReviewList";
 
 export default function Product() {
   const [product, setProduct] = useState();
+  const [sizeReviews, setSizeReviews] = useState([]);
   const router = useRouter();
   const { id } = router.query;
 
@@ -13,10 +15,17 @@ export default function Product() {
     setProduct(nextProduct);
   }
 
+  async function getSizeReviews(targetId) {
+    const res = await axios.get(`size_reviews/?product_id=${targetId}`);
+    const nextSizeReviews = res.data.results ?? [];
+    setSizeReviews(nextSizeReviews);
+  }
+
   useEffect(() => {
     if (!id) return;
 
     getProduct(id);
+    getSizeReviews(id);
   }, [id]);
 
   if (!product) return null;
@@ -25,6 +34,7 @@ export default function Product() {
     <div>
       <h1>{product.name}</h1>
       <img src={product.imgUrl} alt={product.namge}></img>
+      <SizeReviewList sizeReviews={sizeReviews} />
     </div>
   );
 }
