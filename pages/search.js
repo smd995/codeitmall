@@ -3,8 +3,6 @@ import SearchForm from "@/components/SearchForm";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import axios from "@/lib/axios";
-import Header from "@/components/Header";
-import Container from "@/components/Container";
 import styles from "@/styles/Search.module.css";
 
 export default function Search() {
@@ -24,14 +22,11 @@ export default function Search() {
 
   return (
     <div>
-      <Header />
-      <Container>
-        <SearchForm initialValue={q} />
-        <h2 className={styles.title}>
-          <span className={styles.keyword}>{q}</span> 검색 결과
-        </h2>
-        <ProductList className={styles.productList} products={products} />
-      </Container>
+      <SearchForm initialValue={q} />
+      <h2 className={styles.title}>
+        <span className={styles.keyword}>{q}</span> 검색 결과
+      </h2>
+      <ProductList className={styles.productList} products={products} />
     </div>
   );
 }
