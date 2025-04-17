@@ -1,26 +1,24 @@
 import ProductList from "@/components/ProductList";
 import SearchForm from "@/components/SearchForm";
-import { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
 import axios from "@/lib/axios";
 import styles from "@/styles/Search.module.css";
 import Head from "next/head";
 
-export default function Search() {
-  const [products, setProducts] = useState([]);
-  const router = useRouter();
-  const { q } = router.query;
+export async function getServerSideProps(context) {
+  const q = context.query["q"];
 
-  const getProducts = useCallback(async () => {
-    const res = await axios.get(`products/?q=${q}`);
-    const nextProducts = res.data.results;
-    setProducts(nextProducts);
-  }, [q]);
+  const res = await axios.get(`products/?q=${q}`);
+  const products = res.data.results ?? [];
 
-  useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+  return {
+    props: {
+      products,
+      q,
+    },
+  };
+}
 
+export default function Search({ q, products }) {
   return (
     <>
       <Head>
