@@ -1,7 +1,7 @@
 import ProductList from "@/components/ProductList";
 import SearchForm from "@/components/SearchForm";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "@/lib/axios";
 import styles from "@/styles/Search.module.css";
 import Head from "next/head";
@@ -11,15 +11,15 @@ export default function Search() {
   const router = useRouter();
   const { q } = router.query;
 
-  async function getProducts() {
+  const getProducts = useCallback(async () => {
     const res = await axios.get(`products/?q=${q}`);
     const nextProducts = res.data.results;
     setProducts(nextProducts);
-  }
+  }, [q]);
 
   useEffect(() => {
-    getProducts(q);
-  }, [q]);
+    getProducts();
+  }, [getProducts]);
 
   return (
     <>
