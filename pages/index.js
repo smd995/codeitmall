@@ -3,6 +3,7 @@ import SearchForm from "@/components/SearchForm";
 import { useState, useEffect } from "react";
 import axios from "@/lib/axios";
 import styles from "@/styles/Home.module.css";
+import Head from "next/head";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,9 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>{`Codeitmall`}</title>
+      </Head>
       <SearchForm />
       <ProductList className={styles.productList} products={products} />
     </>
