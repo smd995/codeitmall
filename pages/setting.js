@@ -1,4 +1,4 @@
-import Dropdown from "@/components/DropDown";
+import Dropdown from "@/components/Dropdown";
 import { useTheme } from "@/lib/ThemeContext";
 import styles from "@/styles/Setting.module.css";
 
